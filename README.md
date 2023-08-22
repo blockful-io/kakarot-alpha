@@ -2,6 +2,40 @@
 
 All tests will be runned in this file, which is the minimal Foundry version. The RPC for Kakarot must be started from the repository kakarot-rpc. Anvil must be started from this repo: kakarot-alpha.
 
+## Already tested
+
+### Fallback & Receive
+
+#### [X] Inifite loops;
+
+#### [X] Correct behavior when handling `msg.value` and `msg.data`;
+
+### Solidity CheatSheets
+
+A famous page with all the opcodes and other cheatcodes for Solidity: https://docs.soliditylang.org/en/v0.8.13/cheatsheet.html
+
+#### [X] Type(T,I,C)...
+
+#### [X] Sender, Data, Value, Sig, Origin
+
+#### [X] Address,
+
+#### [X] Mod
+
+#### [X] Hashings
+
+#### [X] Assertions
+
+#### [X] Self Destruct
+
+#### [ ] Structs, Mappings
+
+#### [ ] ABI's & Stack-too-deep
+
+#### [ ] Gas & GasLeft comparisons
+
+#### [ ] Bitwise & Assignment Operators
+
 ## Documentation
 
 ### Installation and instancing RPC
