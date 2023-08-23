@@ -38,7 +38,7 @@ fallback-katana:
 	forge script script/Fallback.s.sol --broadcast --legacy --compute-units-per-second 4000  --slow --fork-url http://localhost:3030
 
 structs-anvil:
-	forge script script/Fallback.s.sol --broadcast --legacy --compute-units-per-second 4000  --slow --fork-url http://localhost:8545
+	forge script script/Structs.s.sol --broadcast --legacy --compute-units-per-second 4000  --slow --fork-url http://localhost:8545
 
 structs-katana:
-	forge script script/Fallback.s.sol --broadcast --legacy --compute-units-per-second 4000  --slow --fork-url http://localhost:3030
+	forge script script/Structs.s.sol --broadcast --legacy --compute-units-per-second 4000  --slow --fork-url http://localhost:3030

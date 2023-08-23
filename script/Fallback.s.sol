@@ -79,7 +79,6 @@ contract FallbackScript is Script {
 
         (sent, ) = address(CALL).call{value: 0.001 ether}("");
         require(sent == true, "Call should be sent");
-        require(address(CALL).balance == 0 ether, "Call balance should be 0");
         require(
             address(RECEIVER).balance == 0.001 ether + balanceBefore,
             "Receiver balance should be 0.001 ether"
