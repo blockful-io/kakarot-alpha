@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
+// Fail on Remix
+// https://github.com/kkrt-labs/kakarot/issues/688
 contract Revert {
     fallback() external payable {
         revert("reverted on fallback");

@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
+// Fail on Remix
+// https://github.com/kkrt-labs/kakarot/issues/690
 contract OuroborosDestruct {
     fallback() external payable {
         selfdestruct(payable(address(this)));
@@ -11,6 +13,8 @@ contract OuroborosDestruct {
     }
 }
 
+// Fail on Remix
+// https://github.com/kkrt-labs/kakarot/issues/689
 contract SelfDestruct {
     function useSelfdestruct(address payable _address) public {
         selfdestruct(_address);
@@ -33,6 +37,8 @@ contract Mod {
     }
 }
 
+// Fail on Remix
+// https://github.com/kkrt-labs/kakarot/issues/691
 contract ModMax {
     function testAddmod() public pure returns (uint) {
         return addmod(type(uint256).max, type(uint256).max, type(uint256).max);
@@ -66,7 +72,9 @@ contract Hashing {
     }
 }
 
-contract HashingRemix {
+// Fail on Remix
+// https://github.com/kkrt-labs/kakarot/issues/692
+contract HashingForRemix {
     function useKeccak256() public pure returns (bytes32) {
         string memory name = "Blockful";
         bytes memory encodedName = abi.encodePacked(name);
@@ -98,29 +106,9 @@ contract HashingRemix {
     }
 }
 
-interface ITypes {
-    function unsigned() external pure returns (uint);
-
-    function unsigned256() external pure returns (uint256);
-
-    function unsigned128() external pure returns (uint128);
-
-    function unsigned64() external pure returns (uint64);
-
-    function unsigned32() external pure returns (uint32);
-
-    function unsigned16() external pure returns (uint16);
-
-    function unsigned8() external pure returns (uint8);
-
-    function contractName() external pure returns (string memory);
-
-    function contractInterface() external pure returns (bytes4);
-}
-
 error InvalidValueForMinimum(uint256 _value);
 
-contract Types is ITypes {
+contract Types {
     function unsigned() public pure returns (uint) {
         if (type(uint).min != 0) {
             revert InvalidValueForMinimum(type(uint).min);
