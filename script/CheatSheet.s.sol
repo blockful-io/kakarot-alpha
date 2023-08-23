@@ -84,6 +84,7 @@ contract CheatSheetScript is Script {
     function testHashing() public view {
         uint256 deployerPrivateKey = vm.envUint("EVM_PRIVATE_KEY");
         bytes memory name = "Blockful";
+
         bytes32 response;
 
         response = HASH.useKeccak256(name);
@@ -97,6 +98,15 @@ contract CheatSheetScript is Script {
 
         bytes32 _hash = keccak256(name);
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(deployerPrivateKey, _hash);
+
+        string memory _name = "Blockful";
+        bytes memory _nameBytes = abi.encodePacked(_name);
+        bytes32 __hash = keccak256(_nameBytes);
+        (v, r, s) = vm.sign(deployerPrivateKey, __hash);
+        console.log(vm.addr(deployerPrivateKey));
+        console.log("v", v);
+        console.logBytes32(r);
+        console.logBytes32(s);
 
         address signer = HASH.useEcrecover(_hash, v, r, s);
         require(

@@ -1,11 +1,25 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
+contract OuroborosDestruct {
+    fallback() external payable {
+        selfdestruct(payable(address(this)));
+    }
+
+    receive() external payable {
+        address(this).call{value: 0}("0x01");
+    }
+}
+
 contract SelfDestruct {
     function useSelfdestruct(address payable _address) public {
         selfdestruct(_address);
     }
 
+    receive() external payable {}
+}
+
+contract Receiver {
     receive() external payable {}
 }
 
@@ -16,6 +30,16 @@ contract Mod {
 
     function useMulmod(uint x, uint y, uint k) public pure returns (uint) {
         return mulmod(x, y, k);
+    }
+}
+
+contract ModMax {
+    function testAddmod() public pure returns (uint) {
+        return addmod(type(uint256).max, type(uint256).max, type(uint256).max);
+    }
+
+    function testMulmod() public pure returns (uint) {
+        return mulmod(type(uint256).max, type(uint256).max, type(uint256).max);
     }
 }
 
@@ -39,6 +63,38 @@ contract Hashing {
         bytes32 s
     ) public pure returns (address) {
         return ecrecover(_hash, v, r, s);
+    }
+}
+
+contract HashingRemix {
+    function useKeccak256() public pure returns (bytes32) {
+        string memory name = "Blockful";
+        bytes memory encodedName = abi.encodePacked(name);
+        return keccak256(encodedName);
+    }
+
+    function useSha256() public pure returns (bytes32) {
+        string memory name = "Blockful";
+        bytes memory encodedName = abi.encodePacked(name);
+        return sha256(encodedName);
+    }
+
+    function useRipemd160() public pure returns (bytes32) {
+        string memory name = "Blockful";
+        bytes memory encodedName = abi.encodePacked(name);
+        return ripemd160(encodedName);
+    }
+
+    // signer pkey 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+    // v 27
+    // r 0xe56beeb0661820111478c4b6f0435e5e1ee811676153432412b96e5e15056ee4
+    // s 0x55b75850e86c0b2a4a56f39ea1f560d6a30517bea27b73b7f537b56cffba3563
+    function useEcrecover(
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) public pure returns (address) {
+        return ecrecover(useKeccak256(), v, r, s);
     }
 }
 
