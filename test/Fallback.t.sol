@@ -26,22 +26,22 @@ contract FallbackTest is Test {
     function testPlainEtherTransfer() public {
         bool sent;
 
-        (sent, ) = address(REVERT).call{value: 0.1 ether}("0x01");
+        (sent, ) = address(REVERT).call{value: 0.001 ether}("0x01");
         assertEq(sent, false);
 
-        (sent, ) = address(REVERT).call{value: 0.1 ether}("");
+        (sent, ) = address(REVERT).call{value: 0.001 ether}("");
         assertEq(sent, false);
 
         (sent, ) = address(REQUIRE).call{value: 0 ether}("0x01");
         assertEq(sent, false);
 
-        (sent, ) = address(REQUIRE).call{value: 0.1 ether}("0x01");
+        (sent, ) = address(REQUIRE).call{value: 0.001 ether}("0x01");
         assertEq(sent, true);
 
         (sent, ) = address(REQUIRE).call{value: 0 ether}("");
         assertEq(sent, false);
 
-        (sent, ) = address(REQUIRE).call{value: 0.1 ether}("");
+        (sent, ) = address(REQUIRE).call{value: 0.001 ether}("");
         assertEq(sent, true);
     }
 
@@ -50,28 +50,28 @@ contract FallbackTest is Test {
         uint256 balance;
         bytes memory data;
 
-        (sent, ) = address(CONTEXT).call{value: 0.1 ether}("0x01");
+        (sent, ) = address(CONTEXT).call{value: 0.001 ether}("0x01");
         assertEq(sent, true);
 
         balance = CONTEXT.balance();
-        assertEq(balance, 0.1 ether);
+        assertEq(balance, 0.001 ether);
 
         data = CONTEXT.data();
         assertEq(data, "0x01");
 
-        (sent, ) = address(CONTEXT).call{value: 0.1 ether}("");
+        (sent, ) = address(CONTEXT).call{value: 0.001 ether}("");
         assertEq(sent, true);
 
         balance = CONTEXT.balance();
-        assertEq(balance, 0.1 ether);
+        assertEq(balance, 0.001 ether);
     }
 
     function testCallFromFallback() public {
         bool sent;
 
-        (sent, ) = address(CALL).call{value: 0.1 ether}("");
+        (sent, ) = address(CALL).call{value: 0.001 ether}("");
         assertEq(sent, true);
         assertEq(address(CALL).balance, 0 ether);
-        assertEq(address(RECEIVER).balance, 0.1 ether);
+        assertEq(address(RECEIVER).balance, 0.001 ether);
     }
 }

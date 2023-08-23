@@ -27,8 +27,8 @@ contract FallbackScript is Script {
         uint256 deployerPrivateKey = vm.envUint("EVM_PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
 
-        testPlainEtherTransfer();
-        testContextOnFallback();
+        // testPlainEtherTransfer();
+        // testContextOnFallback();
         testCallFromFallback();
 
         vm.stopBroadcast();
@@ -37,22 +37,22 @@ contract FallbackScript is Script {
     function testPlainEtherTransfer() public {
         bool sent;
 
-        (sent, ) = address(REVERT).call{value: 0.1 ether}("0x01");
+        (sent, ) = address(REVERT).call{value: 0.001 ether}("0x01");
         require(!sent, "Revert should not be sent");
 
-        (sent, ) = address(REVERT).call{value: 0.1 ether}("");
+        (sent, ) = address(REVERT).call{value: 0.001 ether}("");
         require(!sent, "Revert should not be sent");
 
         (sent, ) = address(REQUIRE).call{value: 0 ether}("0x01");
         require(!sent, "Revert should not be sent");
 
-        (sent, ) = address(REQUIRE).call{value: 0.1 ether}("0x01");
+        (sent, ) = address(REQUIRE).call{value: 0.001 ether}("0x01");
         require(sent, "Revert should be sent1");
 
         (sent, ) = address(REQUIRE).call{value: 0 ether}("");
         require(!sent, "Revert should not be sent");
 
-        (sent, ) = address(REQUIRE).call{value: 0.1 ether}("");
+        (sent, ) = address(REQUIRE).call{value: 0.001 ether}("");
         require(sent, "Revert should be sent2");
     }
 
@@ -60,25 +60,29 @@ contract FallbackScript is Script {
         bool sent;
         uint256 balance;
 
-        (sent, ) = address(CONTEXT).call{value: 0.1 ether}("0x01");
+        (sent, ) = address(CONTEXT).call{value: 0.001 ether}("0x01");
         assert(sent == true);
 
         balance = CONTEXT.balance();
-        assert(balance == 0.1 ether);
+        assert(balance == 0.001 ether);
 
-        (sent, ) = address(CONTEXT).call{value: 0.1 ether}("");
+        (sent, ) = address(CONTEXT).call{value: 0.001 ether}("");
         assert(sent == true);
 
         balance = CONTEXT.balance();
-        assert(balance == 0.1 ether);
+        assert(balance == 0.001 ether);
     }
 
     function testCallFromFallback() public {
         bool sent;
+        uint256 balanceBefore = address(RECEIVER).balance;
 
-        (sent, ) = address(CALL).call{value: 0.1 ether}("");
-        assert(sent == true);
-        assert(address(CALL).balance == 0 ether);
-        assert(address(RECEIVER).balance == 0.1 ether);
+        (sent, ) = address(CALL).call{value: 0.001 ether}("");
+        require(sent == true, "Call should be sent");
+        require(address(CALL).balance == 0 ether, "Call balance should be 0");
+        require(
+            address(RECEIVER).balance == 0.001 ether + balanceBefore,
+            "Receiver balance should be 0.001 ether"
+        );
     }
 }

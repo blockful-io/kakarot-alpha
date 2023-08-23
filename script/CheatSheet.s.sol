@@ -2,19 +2,19 @@
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
-import {SelfDescruct, Mod, Hashing, Types, ITypes} from "src/CheatSheet.sol";
+import {SelfDestruct, Mod, Hashing, Types, ITypes} from "src/CheatSheet.sol";
 
 contract CheatSheetScript is Script {
     Hashing public HASH;
     Types public TYPES;
     Mod public MOD;
-    SelfDescruct public SELF;
+    SelfDestruct public DESTRUCT;
 
     function setUp() public {
         HASH = new Hashing();
         TYPES = new Types();
         MOD = new Mod();
-        SELF = new SelfDescruct();
+        DESTRUCT = new SelfDestruct();
     }
 
     function run() public {
@@ -33,20 +33,20 @@ contract CheatSheetScript is Script {
     }
 
     function testSelfDestruct() public {
-        address payable addressToDestroy = payable(address(SELF));
-        assert(addressToDestroy.balance == 0);
+        uint256 currbalance = address(DESTRUCT).balance;
 
-        uint256 value = 0.1 ether;
-        (bool sent, ) = addressToDestroy.call{value: value}("");
+        uint256 value = 0.001 ether;
+        (bool sent, ) = payable(address(DESTRUCT)).call{value: value}("");
         require(sent, "failed to send Ether");
 
         uint256 balanceBefore = address(this).balance;
-        uint256 balanceAfter;
+        DESTRUCT.useSelfdestruct(payable(address(this)));
+        uint256 balanceAfter = address(this).balance;
 
-        SELF.useSelfdestruct(payable(address(this)));
-
-        balanceAfter = address(this).balance;
-        require(balanceAfter == balanceBefore + value, "balance differs");
+        require(
+            balanceAfter == balanceBefore + value + currbalance,
+            "balance differs"
+        );
     }
 
     function testMod() public view {
@@ -61,21 +61,24 @@ contract CheatSheetScript is Script {
 
     function testCreationAndRuntimeCode() public pure {
         bytes memory creationCode = type(Types).creationCode;
-        assert(creationCode.length > 0);
+        require(creationCode.length > 0, "creationCode is empty");
 
         bytes memory runtimeCode = type(Types).runtimeCode;
-        assert(runtimeCode.length > 0);
+        require(runtimeCode.length > 0, "runtimeCode is empty");
     }
 
     function testContractName() public view {
         string memory name = TYPES.contractName();
         string memory expected = "Types";
-        require(keccak256(abi.encode(name)) == keccak256(abi.encode(expected)));
+        require(
+            keccak256(abi.encode(name)) == keccak256(abi.encode(expected)),
+            "Invalid contract name"
+        );
     }
 
     function testContractInterface() public view {
         bytes4 interfaceId = TYPES.contractInterface();
-        assert(interfaceId == type(ITypes).interfaceId);
+        require(interfaceId == type(ITypes).interfaceId, "Invalid interfaceId");
     }
 
     function testHashing() public view {
@@ -104,24 +107,24 @@ contract CheatSheetScript is Script {
 
     function testUnsignedIntegers() public view {
         uint unsigned = TYPES.unsigned();
-        assert(unsigned == type(uint).max);
+        require(unsigned == type(uint).max, "Invalid unsigned");
 
         uint256 unsigned256 = TYPES.unsigned256();
-        assert(unsigned256 == type(uint256).max);
+        require(unsigned256 == type(uint256).max, "Invalid unsigned256");
 
         uint128 unsigned128 = TYPES.unsigned128();
-        assert(unsigned128 == type(uint128).max);
+        require(unsigned128 == type(uint128).max, "Invalid unsigned128");
 
         uint64 unsigned64 = TYPES.unsigned64();
-        assert(unsigned64 == type(uint64).max);
+        require(unsigned64 == type(uint64).max, "Invalid unsigned64");
 
         uint32 unsigned32 = TYPES.unsigned32();
-        assert(unsigned32 == type(uint32).max);
+        require(unsigned32 == type(uint32).max, "Invalid unsigned32");
 
         uint16 unsigned16 = TYPES.unsigned16();
-        assert(unsigned16 == type(uint16).max);
+        require(unsigned16 == type(uint16).max, "Invalid unsigned16");
 
         uint8 unsigned8 = TYPES.unsigned8();
-        assert(unsigned8 == type(uint8).max);
+        require(unsigned8 == type(uint8).max, "Invalid unsigned8");
     }
 }

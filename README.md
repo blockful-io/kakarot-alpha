@@ -30,7 +30,9 @@ A famous page with all the opcodes and other cheatcodes for Solidity: https://do
 
 #### [ ] Structs, Mappings
 
-#### [ ] ABI's & Stack-too-deep
+#### [ ] Stack-too-deep
+
+#### [ ] ABI's
 
 #### [ ] Gas & GasLeft comparisons
 

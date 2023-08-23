@@ -24,7 +24,7 @@ contract AddressScript is Script {
         bool response;
 
         // fund for testing purposes
-        (bool sent, ) = address(ADDR).call{value: 0.1 ether}("");
+        (bool sent, ) = address(ADDR).call{value: 0.001 ether}("");
         assert(sent);
 
         response = ADDR.isContract(address(this));
@@ -48,7 +48,7 @@ contract AddressScript is Script {
             "Address.getCodehash should match"
         );
 
-        response = ADDR.sendEther{value: 0.1 ether}();
+        response = ADDR.sendEther{value: 0.001 ether}();
         require(response, "Address.sendEther should return true");
 
         ADDR.transferEther(address(this));
