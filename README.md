@@ -1,3 +1,5 @@
+Test
+
 # Minimal Kakarot Tester
 
 All tests will be runned in this file, which is the minimal Foundry version. The RPC for Kakarot must be started from the repository kakarot-rpc. Anvil must be started from this repo: kakarot-alpha.
