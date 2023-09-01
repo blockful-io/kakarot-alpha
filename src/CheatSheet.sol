@@ -108,6 +108,10 @@ contract HashingForRemix {
 
 error InvalidValueForMinimum(uint256 _value);
 
+interface ITypes {
+    function contractInterface() external pure returns (bytes4);
+}
+
 contract Types {
     function unsigned() public pure returns (uint) {
         if (type(uint).min != 0) {
@@ -164,5 +168,9 @@ contract Types {
 
     function contractInterface() public pure returns (bytes4) {
         return type(ITypes).interfaceId;
+    }
+
+    function functionSelector() public pure returns (bytes4) {
+        return this.functionSelector.selector;
     }
 }

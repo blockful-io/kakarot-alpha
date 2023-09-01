@@ -38,22 +38,22 @@ contract FallbackScript is Script {
         bool sent;
 
         (sent, ) = address(REVERT).call{value: 0.001 ether}("0x01");
-        require(!sent, "Revert should not be sent");
+        require(!sent, "Should revert");
 
         (sent, ) = address(REVERT).call{value: 0.001 ether}("");
-        require(!sent, "Revert should not be sent");
+        require(!sent, "Should revert");
 
         (sent, ) = address(REQUIRE).call{value: 0 ether}("0x01");
-        require(!sent, "Revert should not be sent");
+        require(!sent, "Should revert");
 
         (sent, ) = address(REQUIRE).call{value: 0.001 ether}("0x01");
-        require(sent, "Revert should be sent1");
+        require(sent, "Should not revert");
 
         (sent, ) = address(REQUIRE).call{value: 0 ether}("");
-        require(!sent, "Revert should not be sent");
+        require(!sent, "Should revert");
 
         (sent, ) = address(REQUIRE).call{value: 0.001 ether}("");
-        require(sent, "Revert should be sent2");
+        require(sent, "Should not revert");
     }
 
     function testContextOnFallback() public {
@@ -61,16 +61,16 @@ contract FallbackScript is Script {
         uint256 balance;
 
         (sent, ) = address(CONTEXT).call{value: 0.001 ether}("0x01");
-        assert(sent == true);
+        require(sent, "Should revert");
 
         balance = CONTEXT.balance();
-        assert(balance == 0.001 ether);
+        require(balance == 0.001 ether, "Balance should be 0.001 ether");
 
         (sent, ) = address(CONTEXT).call{value: 0.001 ether}("");
-        assert(sent == true);
+        require(sent, "Should revert");
 
         balance = CONTEXT.balance();
-        assert(balance == 0.001 ether);
+        require(balance == 0.001 ether, "Balance should be 0.001 ether");
     }
 
     function testCallFromFallback() public {

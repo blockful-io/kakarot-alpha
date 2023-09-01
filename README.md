@@ -2,41 +2,73 @@
 
 All tests will be runned in this file, which is the minimal Foundry version. The RPC for Kakarot must be started from the repository kakarot-rpc. Anvil must be started from this repo: kakarot-alpha.
 
-## Already tested
+All the opcodes and other cheatcodes for Solidity: https://docs.soliditylang.org/en/v0.8.13/cheatsheet.html
 
-### Fallback & Receive
+Compiler version is 0.8.13
+
+## Test Status
+
+C = community is working on
+
+#### [ ] Yul
+
+#### [ ] Delegate Call Methods
+
+#### [ ] Chainned Contract Calls
+
+#### [ ] ABI Decode
+
+#### [ ] ABI Encode Call
+
+#### [ ] ABI EncodeWithSelector
+
+#### [ ] ABI EncodeWithSignature
+
+#### [ ] Super
+
+#### [ ] Assembly
+
+#### [ ] Unchecked
+
+#### [C] Bitwise & Assignment Operators
+
+#### [C] Constructor
+
+#### [C] Modifiers
 
 #### [X] Inifite loops;
 
-#### [X] Correct behavior when handling `msg.value` and `msg.data`;
+#### [X] Handling `msg.value` and `msg.data`;
 
-### Solidity CheatSheets
+#### [X] ABI Encode
 
-A famous page with all the opcodes and other cheatcodes for Solidity: https://docs.soliditylang.org/en/v0.8.13/cheatsheet.html
+#### [X] ABI EncodePacked
+
+#### [X] Concat (string, bytes)
 
 #### [X] Type(T,I,C)...
 
+#### [X] Type Casts Min, Max
+
 #### [X] Sender, Data, Value, Sig, Origin
 
-#### [X] Address,
+#### [X] Address lib
 
-#### [X] Mod
+#### [X] Address, Transfer, Send, Code, Balance
 
-#### [X] Hashings
+#### [X] Mulmod, Addmod
 
-#### [X] Assertions
+#### [X] Hashings, keccak, ripemd, sha, ecrecover
+
+#### [X] Assertion, Require, Revert
+
+#### [X] Fallback, Receive
 
 #### [X] Self Destruct
 
-#### [ ] Structs, Mappings
+#### [X] Structs, Mappings
 
-#### [ ] Stack-too-deep
-
-#### [ ] ABI's
-
-#### [ ] Gas & GasLeft comparisons
-
-#### [ ] Bitwise & Assignment Operators
+#### [X] Stack-too-deep
 
 ## Documentation
 
@@ -78,6 +110,20 @@ $ anvil
 
 to make all the anvil tests, then compare with katana's.
 
+### Run Makefile
+
+You can opt to run the Makefile scripts to test it all at once:
+
+1. Start Anvil node
+2. Start Katana rpc
+3. Run the bellow command
+
+```shell
+$ make all
+```
+
+This will test all currently available script files in both anvil and katana
+
 ### Run scripts
 
 Change the <SCRIPTNAME> for the one to be executed. Some tests are really extensive when using verbosity at the maximum.
@@ -97,6 +143,8 @@ $ forge script script/<SCRIPTNAME>.s.sol --legacy --compute-units-per-second 400
 ```
 
 ### Run tests functions
+
+This is stopped being developed due to the tests in foundry not responding well to the rpc
 
 Anvil
 

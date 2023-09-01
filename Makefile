@@ -2,6 +2,7 @@
 export
 
 all:
+    make anvil
 	make address-anvil
 	make address-katana
 	make cheatsheet-anvil
